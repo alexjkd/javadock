@@ -1,13 +1,15 @@
 version: '3'
 
 networks:
-  frontend:
-    driver: ${NETWORKS_DRIVER}
   backend:
     driver: ${NETWORKS_DRIVER}
 
 volumes:
     mysql:
+        driver: ${VOLUMES_DRIVER}
+    tomcat:
+        driver: ${VOLUMES_DRIVER}
+    jetty:
         driver: ${VOLUMES_DRIVER}
 
 services:
@@ -42,9 +44,30 @@ services:
             args:
                 - TOMCAT_VERSION=${TOMCAT_VERSION}
         environment:
+            - CATALINA_BASE=/usr/local/tomcat
             - TZ=${WORKSPACE_TIMEZONE}
+        volumes:
+            - ${TOMCAT_HOST_LOG_PATH}:/usr/local/tomcat/logs
+            - ${APP_CODE_PATH_CONTAINER}:/usr/local/tomcat/webapps/spring
+            - ./tomcat/webapps:/usr/local/tomcat/webapps
+            - ./tomcat/lib:/usr/local/tomcat/lib
+            - ./tomcat/conf:/usr/local/tomcat/conf 
         ports:
             - "${TOMCAT_PORT}:8080"
+            - "${TOMCAT_DEBUGGING_PORT}:8000" 
         networks:
             - backend
-             
+
+ ### Jetty  ################################################
+ 
+    jetty:
+        build:
+            context: ./jetty
+            args:
+                - JETTY_VERSION=${JETTY_VERSION}
+        environment:
+            - TZ=${WORKSPACE_TIMEZONE}
+        ports:
+            - "${JETTY_PORT}:8080"
+        networks:
+            - backend
