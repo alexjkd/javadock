@@ -16,3 +16,6 @@ ENV JPDA_ADDRESS="8000"
 ENV JPDA_TRANSPORT="dt_socket"
 
 EXPOSE 8080
+
+ENTRYPOINT ["catalina.sh", "jpda", "run"]
+
