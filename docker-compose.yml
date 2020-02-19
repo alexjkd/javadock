@@ -1,0 +1,60 @@
+version: '3'
+
+networks:
+  frontend:
+    driver: ${NETWORKS_DRIVER}
+  backend:
+    driver: ${NETWORKS_DRIVER}
+
+volumes:
+    mysql:
+        driver: ${VOLUMES_DRIVER}
+
+services:
+
+### Workspace Utilities ##################################
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_MYSQL_CLIENT=${WORKSPACE_INSTALL_MYSQL_CLIENT}
+                - INSTALL_PING=${WORKSPACE_INSTALL_PING}
+                - PUID=${WORKSPACE_PUID}
+                - PGID=${WORKSPACE_PGID}
+                - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
+                - TZ=${WORKSPACE_TIMEZONE}
+                - http_proxy
+                - https_proxy
+                - no_proxy
+        volumes:
+            - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        extra_hosts:
+            - "dockerhost:${DOCKER_HOST_IP}"
+        environment:
+            - DOCKER_HOST=tcp://docker-in-docker:2375
+        networks:
+            - frontend
+            - backend
+        links:
+            - docker-in-docker
+
+### MySQL ################################################
+    mysql:
+        build:
+            context: ./mysql
+            args:
+                - MYSQL_VERSION=${MYSQL_VERSION}
+        environment:
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - TZ=${WORKSPACE_TIMEZONE}
+        volumes:
+            - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
+            - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+        ports:
+            - "${MYSQL_PORT}:3306"
+        networks:
+            - backend
+
