@@ -1,6 +1,7 @@
 .idea
 /logs
 /data
+/webapps
 .env
 /.project
 .docker-sync

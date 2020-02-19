@@ -48,12 +48,14 @@ services:
             - TZ=${WORKSPACE_TIMEZONE}
         volumes:
             - ${TOMCAT_HOST_LOG_PATH}:/usr/local/tomcat/logs
-            - ${APP_CODE_PATH_CONTAINER}:/usr/local/tomcat/webapps/spring
-            - ./tomcat/webapps:/usr/local/tomcat/webapps
+           #- ${APP_CODE_PATH_CONTAINER}:/usr/local/tomcat/webapps/spring
+           #- ./tomcat/conf_webapps:/usr/local/tomcat/webapps
+            - ./webapps:/usr/local/tomcat/webapps/app
             - ./tomcat/lib:/usr/local/tomcat/lib
             - ./tomcat/conf:/usr/local/tomcat/conf 
         ports:
             - "${TOMCAT_PORT}:8080"
+            - "${TOMCAT_MANAGE_PORT}:8081"
             - "${TOMCAT_DEBUGGING_PORT}:8000" 
         networks:
             - backend
@@ -67,7 +69,10 @@ services:
                 - JETTY_VERSION=${JETTY_VERSION}
         environment:
             - TZ=${WORKSPACE_TIMEZONE}
+        volumes:
+            - ./webapps:/var/lib/jetty/webapps
         ports:
             - "${JETTY_PORT}:8080"
+            - "${JETTY_DEBUGGING_PORT}:8000" 
         networks:
             - backend
