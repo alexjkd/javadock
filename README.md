@@ -128,9 +128,37 @@ Please excute all commands in the root of the project
 
   > http://localhost:9987
 
----
+# Jenkins
 
-# Logs
+* get admin password
+
+  ```bas
+  docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+  ```
+
+* get root cli
+
+  ```bash
+  docker-compose exec --user root jenkins bash
+  ```
+
+* create admin user
+
+  > http://localhost:8090/securityRealm/addUser
+
+* restart the service
+
+  > http://localhost:8090/restart
+
+* configure security
+
+  > http://localhost:8090/configureSecurity/
+
+  
+
+  ---
+
+  # Logs
 
 * Mysql, tomcat
 
