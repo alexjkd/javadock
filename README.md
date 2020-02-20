@@ -49,32 +49,38 @@ Please excute all commands in the root of the project
 
 * Get IP address  by 'https://www.ipaddress.com/' and update hosts
 
-> 192.30.253.113 github.com
-> 192.30.253.119 gist.github.com
-> 185.199.108.153 assets-cdn.github.com
-> 199.232.28.133 raw.githubusercontent.com
-> 199.232.28.133 gist.githubusercontent.com
-> 199.232.28.133 cloud.githubusercontent.com
-> 199.232.28.133 camo.githubusercontent.com
-> 199.232.28.133 avatars0.githubusercontent.com
-> 199.232.28.133 avatars1.githubusercontent.com
-> 199.232.28.133 avatars2.githubusercontent.com
-> 199.232.28.133 avatars3.githubusercontent.com
-> 199.232.28.133 avatars4.githubusercontent.com
-> 199.232.28.133 avatars5.githubusercontent.com
-> 199.232.28.133 avatars6.githubusercontent.com
-> 199.232.28.133 avatars7.githubusercontent.com
-> 199.232.28.133 avatars8.githubusercontent.com
+  > 192.30.253.113 github.com
+  > 192.30.253.119 gist.github.com
+  > 185.199.108.153 assets-cdn.github.com
+  > 199.232.28.133 raw.githubusercontent.com
+  > 199.232.28.133 gist.githubusercontent.com
+  > 199.232.28.133 cloud.githubusercontent.com
+  > 199.232.28.133 camo.githubusercontent.com
+  > 199.232.28.133 avatars0.githubusercontent.com
+  > 199.232.28.133 avatars1.githubusercontent.com
+  > 199.232.28.133 avatars2.githubusercontent.com
+  > 199.232.28.133 avatars3.githubusercontent.com
+  > 199.232.28.133 avatars4.githubusercontent.com
+  > 199.232.28.133 avatars5.githubusercontent.com
+  > 199.232.28.133 avatars6.githubusercontent.com
+  > 199.232.28.133 avatars7.githubusercontent.com
+  > 199.232.28.133 avatars8.githubusercontent.com
 
 # Docker hub acceleration
 
-> {
->   "experimental": false,
->   "debug": true,
->   "registry-mirrors": [
->     "http://hub-mirror.c.163.com"
->   ]
-> }
+```json
+{
+  "experimental": false,
+  "debug": true,
+  "registry-mirrors": [
+    "http://hub-mirror.c.163.com"
+  ]
+}
+```
+
+
+
+
 
 # Set configuration before start container
 
@@ -86,29 +92,29 @@ Please excute all commands in the root of the project
 
 * Folders
 
-> 'conf', 'webapps','lib': folders in container which have been mapped outside
->
-> 'webapps_2': folder in container which has been mapped to 'webapps' in this project 
+  > 'conf', 'webapps','lib': folders in container which have been mapped outside
+  >
+  > 'webapps_2': folder in container which has been mapped to 'webapps' in this project 
 
 * Access URL
 
-> http://localhost:8081/ : This is URL for original pages in tomcat with managment enabled.
->
-> http://localhost:8080: this is the URL for the application in the folder of 'webapps' in this project
+  > http://localhost:8080: this is the URL for the application in the folder of 'webapps' in this project
+  >
+  > http://localhost:8081/ : This is URL for original pages in tomcat with managment enabled.
 
 # Jetty
 
 * Folders
 
-> 'start.d': saved debugging  configuration which has been copied to container while building the container
->
-> 'sample': This is a sample web application to test your settings. You can copy it to 'webapps' of this project after started 'Jetty' container
+  > 'start.d': saved debugging  configuration which has been copied to container while building the container
+  >
+  > 'sample': This is a sample web application to test your settings. You can copy it to 'webapps' of this project after started 'Jetty' container
 
 # Mysql
 
 * db data
 
-> All db data has been saved to ~/.javadock/data/mysql
+  > All db data has been saved to ~/.javadock/data/mysql
 
 # Redis
 
@@ -120,7 +126,7 @@ Please excute all commands in the root of the project
 
 * to access the managment gui
 
-> http://localhost:9987
+  > http://localhost:9987
 
 ---
 
@@ -128,7 +134,7 @@ Please excute all commands in the root of the project
 
 * Mysql, tomcat
 
-> the logs in container have been mapped to 'logs' folder of this project
+  > the logs in container have been mapped to 'logs' folder of this project
 
 # Webapps
 
