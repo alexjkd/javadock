@@ -72,6 +72,10 @@ https://laradock.io/
 
 > All db data has been saved to ~/.javadock/data/mysql
 
+# Redis
+
+
+
 # Logs
 
 * Mysql, tomcat
