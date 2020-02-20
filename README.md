@@ -63,6 +63,8 @@ https://laradock.io/
 * Folders
 
 > 'start.d': saved debugging  configuration which has been copied to container while building the container
+>
+> 'sample': This is a sample web application to test your settings. You can copy it to 'webapps' of this project after started 'Jetty' container
 
 # Mysql
 
@@ -75,4 +77,8 @@ https://laradock.io/
 * Mysql, tomcat
 
 > the logs in container have been mapped to 'logs' folder of this project
+
+# Webapps
+
+This folder will be created after started 'Jetty' container and it mapped to 'webbapps' to 'Jetty'
 
