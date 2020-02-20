@@ -4,7 +4,11 @@ This is a project based on Laravdock which is a serials of devtools for PHP to u
 
 https://laradock.io/
 
+---
+
 # Docker compose  commands for container
+
+Please excute all commands in the root of the project
 
 * Start the container
 
@@ -41,7 +45,7 @@ https://laradock.io/
   ```
 
 
-# Github acceleration 
+# Github acceleration [useless?]
 
 * Get IP address  by 'https://www.ipaddress.com/' and update hosts
 
@@ -62,7 +66,7 @@ https://laradock.io/
 > 199.232.28.133 avatars7.githubusercontent.com
 > 199.232.28.133 avatars8.githubusercontent.com
 
-# Docker hub acceleration in China
+# Docker hub acceleration
 
 > {
 >   "experimental": false,
@@ -72,7 +76,11 @@ https://laradock.io/
 >   ]
 > }
 
+# Set configuration before start container
 
+> please copy 'env-example' to '.env' in the project root to get configuration setting
+
+---
 
 # Tomcat
 
@@ -104,7 +112,17 @@ https://laradock.io/
 
 # Redis
 
+* get management with Gui
 
+  ```ba
+  docker-compose start redis redis-webui
+  ```
+
+* to access the managment gui
+
+> http://localhost:9987
+
+---
 
 # Logs
 
