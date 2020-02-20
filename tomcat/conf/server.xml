@@ -44,6 +44,9 @@
               factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
               pathname="conf/tomcat-users.xml" />
   </GlobalNamingResources>
+  <Service name="Catalina_2"> <Connector port="8081" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8444" /> <Connector port="8010" protocol="AJP/1.3" redirectPort="8444" /> <Engine name="Catalina_2" defaultHost="localhost"> <Realm className="org.apache.catalina.realm.LockOutRealm"> <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/> </Realm> <Host name="localhost" appBase="webapps_2" unpackWARs="true" autoDeploy="true"> <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" prefix="localhost_access_log." suffix=".txt" pattern="%h %l %u %t &quot;%r&quot; %s %b" /> </Host> </Engine> </Service>
+
+
 
   <!-- A "Service" is a collection of one or more "Connectors" that share
        a single "Container" Note:  A "Service" is not itself a "Container",

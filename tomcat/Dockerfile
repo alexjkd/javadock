@@ -9,7 +9,7 @@ ADD webapps/manager/META-INF/context.xml $CATALINA_HOME/webapps/manager/META-INF
 
 ADD lib/mysql-connector-java-8.0.19.jar $CATALINA_HOME/lib/
 
-RUN mkdir $CATALINA_HOME/webapps/app
+RUN mkdir $CATALINA_HOME/webapps_2
 
 #add jpda environmental variables for remote debugging
 ENV JPDA_ADDRESS="8000"

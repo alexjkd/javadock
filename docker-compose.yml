@@ -50,7 +50,7 @@ services:
             - ${TOMCAT_HOST_LOG_PATH}:/usr/local/tomcat/logs
            #- ${APP_CODE_PATH_CONTAINER}:/usr/local/tomcat/webapps/spring
            #- ./tomcat/conf_webapps:/usr/local/tomcat/webapps
-            - ./webapps:/usr/local/tomcat/webapps/app
+            - ./webapps:/usr/local/tomcat/webapps_2
             - ./tomcat/lib:/usr/local/tomcat/lib
             - ./tomcat/conf:/usr/local/tomcat/conf 
         ports:
