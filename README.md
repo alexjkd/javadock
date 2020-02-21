@@ -177,7 +177,11 @@ Please excute all commands in the root of the project
   >    http://melon:11685638e1aee4593c484b88bd4ce2d1f2@45.76.204.189:8090/buildByToken/build?job=ci-demo&token=ci-demo-trigger
   >    ```
 
-  ---
+* a link to get more reference
+
+  > https://segmentfault.com/a/1190000018939447
+
+  ----
 
   # Logs
 
