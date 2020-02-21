@@ -13,7 +13,7 @@ Please excute all commands in the root of the project
 * Start the container
 
   ```ba
-  docker-compose start container
+  docker-compose start {container-name}
   ```
 
   This command can start more containers followed by names
@@ -21,13 +21,13 @@ Please excute all commands in the root of the project
 * Stop the container
 
   ```ba
-  docker-compose stop container
+  docker-compose stop {container-name}
   ```
 
 * Rebuild docker after change the configuration
 
   ```bas
-  docker-copose build --no-cache container
+  docker-copose build --no-cache {container-name}
   ```
 
   Please note this command will destroy the contain and data which has been created. 
@@ -35,13 +35,13 @@ Please excute all commands in the root of the project
 * Refresh container with latest configuration
 
   ```bash
-  docker-compose up -d container
+  docker-compose up -d {container-name}
   ```
 
 * Get live log after running the container
 
   ```bas
-  docker-compose logs -f container
+  docker-compose logs -f {container-name}
   ```
 
 
@@ -98,6 +98,18 @@ Please excute all commands in the root of the project
   >
   > http://localhost:8081/ : This is URL for original pages in tomcat with managment enabled.
 
+* enable debugging
+
+  ```dock
+  #add jpda environmental variables for remote debugging
+  ENV JPDA_ADDRESS="8000"
+  ENV JPDA_TRANSPORT="dt_socket"
+  
+  EXPOSE 8080
+  
+  ENTRYPOINT ["catalina.sh", "jpda", "run"]
+  ```
+
 # Jetty
 
 * Folders
@@ -105,6 +117,37 @@ Please excute all commands in the root of the project
   > 'start.d': saved debugging  configuration which has been copied to container while building the container
   >
   > 'sample': This is a sample web application to test your settings. You can copy it to 'webapps' of this project after started 'Jetty' container
+
+* enable debugging
+
+  > start.d/start.ini
+
+  ```ini
+  #===========================================================
+  # Configure JVM arguments.
+  # If JVM args are include in an ini file then --exec is needed
+  # to start a new JVM from start.jar with the extra args.
+  # If you wish to avoid an extra JVM running, place JVM args
+  # on the normal command line and do not use --exec
+  #-----------------------------------------------------------
+  --exec
+  -Xdebug
+  -agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n
+  # -Xmx2000m
+  # -Xmn512m
+  # -XX:+UseConcMarkSweepGC
+  # -XX:ParallelCMSThreads=2
+  # -XX:+CMSClassUnloadingEnabled
+  # -XX:+UseCMSCompactAtFullCollection
+  # -XX:CMSInitiatingOccupancyFraction=80
+  # -verbose:gc
+  # -XX:+PrintGCDateStamps
+  # -XX:+PrintGCTimeStamps
+  # -XX:+PrintGCDetails
+  # -XX:+PrintTenuringDistribution
+  # -XX:+PrintCommandLineFlags
+  # -XX:+DisableExplicitGC
+  ```
 
 # Mysql
 
@@ -180,6 +223,10 @@ Please excute all commands in the root of the project
 * a link to get more reference
 
   > https://segmentfault.com/a/1190000018939447
+
+* get system info
+
+  >http://45.76.204.189:8090/systemInfo
 
   ----
 
