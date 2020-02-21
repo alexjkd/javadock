@@ -12,7 +12,7 @@ Please excute all commands in the root of the project
 
 * Start the container
 
-  ```ba
+  ```bash
   docker-compose start {container-name}
   ```
 
@@ -26,7 +26,7 @@ Please excute all commands in the root of the project
 
 * Rebuild docker after change the configuration
 
-  ```bas
+  ```bash
   docker-copose build --no-cache {container-name}
   ```
 
@@ -40,10 +40,17 @@ Please excute all commands in the root of the project
 
 * Get live log after running the container
 
-  ```bas
+  ```bash
   docker-compose logs -f {container-name}
   ```
 
+* Scale the container
+
+  ```bash
+  docker-compose scale {container-name}=num
+  ```
+
+  
 
 # Github acceleration [useless?]
 
@@ -100,7 +107,7 @@ Please excute all commands in the root of the project
 
 * enable debugging
 
-  ```dock
+  ```dockerfile
   #add jpda environmental variables for remote debugging
   ENV JPDA_ADDRESS="8000"
   ENV JPDA_TRANSPORT="dt_socket"
@@ -109,6 +116,8 @@ Please excute all commands in the root of the project
   
   ENTRYPOINT ["catalina.sh", "jpda", "run"]
   ```
+  
+  
 
 # Jetty
 
@@ -159,7 +168,7 @@ Please excute all commands in the root of the project
 
 * get management with Gui
 
-  ```ba
+  ```bash
   docker-compose start redis redis-webui
   ```
 
@@ -180,7 +189,7 @@ Please excute all commands in the root of the project
 
 * get admin password
 
-  ```bas
+  ```bash
   docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
   ```
 
@@ -216,7 +225,7 @@ Please excute all commands in the root of the project
   >
   > 4. or access the url by browser
   >
-  >    ```ba
+  >    ```bash
   >    http://melon:auth_token@45.76.204.189:8090/buildByToken/build?job=ci-demo&token=ci-demo-trigger
   >    ```
 
@@ -240,6 +249,84 @@ Please excute all commands in the root of the project
 > Included into this project, if necessary you can try it out.
 
 # Kafka
+
+* check version
+
+  ```bash
+  docker exec kafka find / -name \*kafka_\* | head -1 | grep -o '\kafka[^\n]*'
+  ```
+
+  
+
+* extend broker
+
+  ```bash
+  docker-compose scale kafka=4
+  ```
+
+  ps will show
+
+  ```bash
+  [root@hedy kafka-docker]# docker ps
+  CONTAINER ID        IMAGE                    COMMAND                  CREATED             STATUS              PORTS                                                NAMES
+  adf18015a95e        kafka-docker_kafka       "start-kafka.sh"         6 seconds ago       Up 3 seconds        0.0.0.0:32771->9092/tcp                              kafka-docker_kafka_2
+  d7eb1a9c9c72        kafka-docker_kafka       "start-kafka.sh"         6 seconds ago       Up 3 seconds        0.0.0.0:32770->9092/tcp                              kafka-docker_kafka_4
+  0dddf1728ebd        kafka-docker_kafka       "start-kafka.sh"         6 seconds ago       Up 4 seconds        0.0.0.0:32769->9092/tcp                              kafka-docker_kafka_3
+  19bc31339915        wurstmeister/zookeeper   "/bin/sh -c '/usr/..."   23 minutes ago      Up 23 minutes       22/tcp, 2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp   kafka-docker_zookeeper_1
+  11bbf5c6ebec        kafka-docker_kafka       "start-kafka.sh"         23 minutes ago      Up 23 minutes       0.0.0.0:32768->9092/tcp                              kafka-docker_kafka_1
+  ```
+
+  
+
+* create a topic
+
+  * Create
+
+  ```bash
+  docker exec kafka-docker_kafka_1 \
+  kafka-topics.sh \
+  --create --topic topic001 \
+  --partitions 4 \
+  --zookeeper zookeeper:2181 \
+  --replication-factor 2
+  ```
+
+  * view
+
+  ```bash
+  [root@hedy kafka-docker]# docker exec kafka-docker_kafka_3 \
+  > kafka-topics.sh \
+  > --describe \
+  > --topic topic001 \
+  > --zookeeper zookeeper:2181
+  Topic:topic001	PartitionCount:4	ReplicationFactor:2	Configs:
+  	Topic: topic001	Partition: 0	Leader: 1002	Replicas: 1002,1003	Isr: 1002,1003
+  	Topic: topic001	Partition: 1	Leader: 1003	Replicas: 1003,1004	Isr: 1003,1004
+  	Topic: topic001	Partition: 2	Leader: 1004	Replicas: 1004,1001	Isr: 1004,1001
+  	Topic: topic001	Partition: 3	Leader: 1001	Replicas: 1001,1002	Isr: 1001,1002
+  ```
+
+* consum messaging
+
+  ```bash
+  docker exec kafka-docker_kafka_2 \
+  kafka-console-consumer.sh \
+  --topic topic001 \
+  --bootstrap-server kafka-docker_kafka_1:9092,kafka-docker_kafka_2:9092,kafka-docker_kafka_3:9092,kafka-docker_kafka_4:9092
+  ```
+
+  
+
+* produce messaging
+
+  ```bash
+  docker exec -it kafka-docker_kafka_1 \
+  kafka-console-producer.sh \
+  --topic topic001 \
+  --broker-list kafka-docker_kafka_1:9092,kafka-docker_kafka_2:9092,kafka-docker_kafka_3:9092,kafka-docker_kafka_4:9092
+  ```
+
+  
 
   
 
