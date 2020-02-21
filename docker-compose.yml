@@ -120,7 +120,7 @@ services:
     jenkins:
       build: ./jenkins
       environment:
-        JAVA_OPTS: "-Djava.awt.headless=true"
+        JAVA_OPTS: "-Djava.awt.headless=true -Duser.timezone=\"Asia/Shanghai\""
       ports:
         - "${JENKINS_HOST_SLAVE_AGENT_PORT}:50000"
         - "${JENKINS_HOST_HTTP_PORT}:8080"
