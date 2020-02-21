@@ -226,8 +226,11 @@ Please excute all commands in the root of the project
 
 * get system info
 
-  >http://45.76.204.189:8090/systemInfo
+  > http://45.76.204.189:8090/systemInfo
 
+* set time zone to China
+
+  > JAVA_OPTS: "-Djava.awt.headless=true -Duser.timezone=\"Asia/Shanghai\""
   ----
 
   # Logs
@@ -239,4 +242,6 @@ Please excute all commands in the root of the project
 # Webapps
 
 This folder will be created after started 'Jetty' container and it mapped to 'webbapps' to 'Jetty'
+
+
 
