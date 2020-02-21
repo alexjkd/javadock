@@ -211,13 +211,13 @@ Please excute all commands in the root of the project
   > 3. send post request as following 
   >
   >    ```bash
-  >    curl -X POST http://melon:11685638e1aee4593c484b88bd4ce2d1f2@45.76.204.189:8090/buildByToken/build?job=ci-demo&token=ci-demo-trigger
+  >    curl -X POST http://melon:auth_token@45.76.204.189:8090/buildByToken/build?job=ci-demo&token=ci-demo-trigger
   >    ```
   >
   > 4. or access the url by browser
   >
   >    ```ba
-  >    http://melon:11685638e1aee4593c484b88bd4ce2d1f2@45.76.204.189:8090/buildByToken/build?job=ci-demo&token=ci-demo-trigger
+  >    http://melon:auth_token@45.76.204.189:8090/buildByToken/build?job=ci-demo&token=ci-demo-trigger
   >    ```
 
 * a link to get more reference
@@ -231,7 +231,19 @@ Please excute all commands in the root of the project
 * set time zone to China
 
   > JAVA_OPTS: "-Djava.awt.headless=true -Duser.timezone=\"Asia/Shanghai\""
-  ----
+  Zookeeper
+
+  
+
+# ZooKeeper
+
+> Included into this project, if necessary you can try it out.
+
+# Kafka
+
+  
+
+----
 
   # Logs
 
