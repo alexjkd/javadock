@@ -78,10 +78,6 @@ Please excute all commands in the root of the project
 }
 ```
 
-
-
-
-
 # Set configuration before start container
 
 > please copy 'env-example' to '.env' in the project root to get configuration setting
@@ -130,6 +126,15 @@ Please excute all commands in the root of the project
 
 # Jenkins
 
+* plugins need to be installed 
+
+  * selected recomanded packages
+
+  * addtional packages need to be installed to support maven project
+
+    > 1. [Maven Integration plugin](https://plugins.jenkins.io/maven-plugin)
+    > 2. [Build Token Trigger Plugin](https://plugins.jenkins.io/build-token-trigger)
+
 * get admin password
 
   ```bas
@@ -154,7 +159,23 @@ Please excute all commands in the root of the project
 
   > http://localhost:8090/configureSecurity/
 
-  
+* trigger a build
+
+  > 1. enable the user Auth Token in user settings (must login with user to access the page)
+  >
+  > 2. set trigger token in the job settings
+  >
+  > 3. send post request as following 
+  >
+  >    ```bash
+  >    curl -X POST http://melon:11685638e1aee4593c484b88bd4ce2d1f2@45.76.204.189:8090/buildByToken/build?job=ci-demo&token=ci-demo-trigger
+  >    ```
+  >
+  > 4. or access the url by browser
+  >
+  >    ```ba
+  >    http://melon:11685638e1aee4593c484b88bd4ce2d1f2@45.76.204.189:8090/buildByToken/build?job=ci-demo&token=ci-demo-trigger
+  >    ```
 
   ---
 
