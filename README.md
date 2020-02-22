@@ -6,55 +6,13 @@ https://laradock.io/
 
 ---
 
-# Docker compose  commands for container
+# Set configuration before start container
 
-Please excute all commands in the root of the project
-
-* Start the container
-
-  ```bash
-  docker-compose start {container-name}
-  ```
-
-  This command can start more containers followed by names
-
-* Stop the container
-
-  ```ba
-  docker-compose stop {container-name}
-  ```
-
-* Rebuild docker after change the configuration
-
-  ```bash
-  docker-copose build --no-cache {container-name}
-  ```
-
-  Please note this command will destroy the contain and data which has been created. 
-
-* Refresh container with latest configuration
-
-  ```bash
-  docker-compose up -d {container-name}
-  ```
-
-* Get live log after running the container
-
-  ```bash
-  docker-compose logs -f {container-name}
-  ```
-
-* Scale the container
-
-  ```bash
-  docker-compose scale {container-name}=num
-  ```
-
-  
+> please copy 'env-example' to '.env' in the project root to get configuration setting
 
 # Github acceleration [useless?]
 
-* Get IP address  by 'https://www.ipaddress.com/' and update hosts
+- Get IP address by 'https://www.ipaddress.com/' and update /etc/hosts
 
   > 192.30.253.113 github.com
   > 192.30.253.119 gist.github.com
@@ -79,55 +37,91 @@ Please excute all commands in the root of the project
 {
   "experimental": false,
   "debug": true,
-  "registry-mirrors": [
-    "http://hub-mirror.c.163.com"
-  ]
+  "registry-mirrors": ["http://hub-mirror.c.163.com"]
 }
 ```
 
-# Set configuration before start container
+# Docker compose commands for container
 
-> please copy 'env-example' to '.env' in the project root to get configuration setting
+Please excute all commands in the root of the project
+
+- Start the container
+
+  ```bash
+  docker-compose start {container-name}
+  ```
+
+  This command can start more containers followed by names
+
+- Stop the container
+
+  ```ba
+  docker-compose stop {container-name}
+  ```
+
+- Rebuild docker after change the configuration
+
+  ```bash
+  docker-copose build --no-cache {container-name}
+  ```
+
+  Please note this command will destroy the contain and data which has been created.
+
+- Refresh container with latest configuration
+
+  ```bash
+  docker-compose up -d {container-name}
+  ```
+
+- Get live log after running the container
+
+  ```bash
+  docker-compose logs -f {container-name}
+  ```
+
+- Scale the container
+
+  ```bash
+  docker-compose scale {container-name}=num
+  ```
 
 ---
 
 # Tomcat
 
-* Folders
+- Folders
 
   > 'conf', 'webapps','lib': folders in container which have been mapped outside
   >
-  > 'webapps_2': folder in container which has been mapped to 'webapps' in this project 
+  > 'webapps_2': folder in container which has been mapped to 'webapps' in this project
 
-* Access URL
+- Access URL
 
   > http://localhost:8080: this is the URL for the application in the folder of 'webapps' in this project
   >
   > http://localhost:8081/ : This is URL for original pages in tomcat with managment enabled.
 
-* enable debugging
+- enable debugging
 
   ```dockerfile
   #add jpda environmental variables for remote debugging
   ENV JPDA_ADDRESS="8000"
   ENV JPDA_TRANSPORT="dt_socket"
-  
+
   EXPOSE 8080
-  
+
   ENTRYPOINT ["catalina.sh", "jpda", "run"]
   ```
-  
-  
 
 # Jetty
 
-* Folders
+- Folders
 
-  > 'start.d': saved debugging  configuration which has been copied to container while building the container
+  > 'start.d': saved debugging configuration which has been copied to container while building the container
   >
   > 'sample': This is a sample web application to test your settings. You can copy it to 'webapps' of this project after started 'Jetty' container
 
-* enable debugging
+- enable debugging
 
   > start.d/start.ini
 
@@ -160,64 +154,64 @@ Please excute all commands in the root of the project
 
 # Mysql
 
-* db data
+- db data
 
   > All db data has been saved to ~/.javadock/data/mysql
 
 # Redis
 
-* get management with Gui
+- get management with Gui
 
   ```bash
   docker-compose start redis redis-webui
   ```
 
-* to access the managment gui
+- to access the managment gui
 
   > http://localhost:9987
 
 # Jenkins
 
-* plugins need to be installed 
+- plugins need to be installed
 
-  * selected recomanded packages
+  - selected recomanded packages
 
-  * addtional packages need to be installed to support maven project
+  - addtional packages need to be installed to support maven project
 
     > 1. [Maven Integration plugin](https://plugins.jenkins.io/maven-plugin)
     > 2. [Build Token Trigger Plugin](https://plugins.jenkins.io/build-token-trigger)
 
-* get admin password
+- get admin password
 
   ```bash
   docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
   ```
 
-* get root cli
+- get root cli
 
   ```bash
   docker-compose exec --user root jenkins bash
   ```
 
-* create admin user
+- create admin user
 
   > http://localhost:8090/securityRealm/addUser
 
-* restart the service
+- restart the service
 
   > http://localhost:8090/restart
 
-* configure security
+- configure security
 
   > http://localhost:8090/configureSecurity/
 
-* trigger a build
+- trigger a build
 
   > 1. enable the user Auth Token in user settings (must login with user to access the page)
   >
   > 2. set trigger token in the job settings
   >
-  > 3. send post request as following 
+  > 3. send post request as following
   >
   >    ```bash
   >    curl -X POST http://melon:auth_token@45.76.204.189:8090/buildByToken/build?job=ci-demo&token=ci-demo-trigger
@@ -229,20 +223,18 @@ Please excute all commands in the root of the project
   >    http://melon:auth_token@45.76.204.189:8090/buildByToken/build?job=ci-demo&token=ci-demo-trigger
   >    ```
 
-* a link to get more reference
+- a link to get more reference
 
   > https://segmentfault.com/a/1190000018939447
 
-* get system info
+- get system info
 
   > http://45.76.204.189:8090/systemInfo
 
-* set time zone to China
+- set time zone to China
 
   > JAVA_OPTS: "-Djava.awt.headless=true -Duser.timezone=\"Asia/Shanghai\""
-  Zookeeper
-
-  
+  > Zookeeper
 
 # ZooKeeper
 
@@ -250,13 +242,11 @@ Please excute all commands in the root of the project
 
 # Kafka
 
-* check version
+- check version
 
   ```bash
   docker exec kafka find / -name \*kafka_\* | head -1 | grep -o '\kafka[^\n]*'
   ```
-
-  
 
 * extend broker
 
@@ -276,11 +266,9 @@ Please excute all commands in the root of the project
   11bbf5c6ebec        kafka-docker_kafka       "start-kafka.sh"         23 minutes ago      Up 23 minutes       0.0.0.0:32768->9092/tcp                              kafka-docker_kafka_1
   ```
 
-  
+- create a topic
 
-* create a topic
-
-  * Create
+  - Create
 
   ```bash
   docker exec kafka-docker_kafka_1 \
@@ -291,7 +279,7 @@ Please excute all commands in the root of the project
   --replication-factor 2
   ```
 
-  * view
+  - view
 
   ```bash
   [root@hedy kafka-docker]# docker exec kafka-docker_kafka_3 \
@@ -306,7 +294,7 @@ Please excute all commands in the root of the project
   	Topic: topic001	Partition: 3	Leader: 1001	Replicas: 1001,1002	Isr: 1001,1002
   ```
 
-* consum messaging
+- consum messaging
 
   ```bash
   docker exec kafka-docker_kafka_2 \
@@ -314,8 +302,6 @@ Please excute all commands in the root of the project
   --topic topic001 \
   --bootstrap-server kafka-docker_kafka_1:9092,kafka-docker_kafka_2:9092,kafka-docker_kafka_3:9092,kafka-docker_kafka_4:9092
   ```
-
-  
 
 * produce messaging
 
@@ -326,21 +312,20 @@ Please excute all commands in the root of the project
   --broker-list kafka-docker_kafka_1:9092,kafka-docker_kafka_2:9092,kafka-docker_kafka_3:9092,kafka-docker_kafka_4:9092
   ```
 
-  
+# Kafka Manager
 
-  
+https://blog.csdn.net/isea533/article/details/73727485
 
-----
+https://www.jianshu.com/p/6a592d558812
 
-  # Logs
+---
 
-* Mysql, tomcat
+# Logs
+
+- Mysql, tomcat
 
   > the logs in container have been mapped to 'logs' folder of this project
 
 # Webapps
 
 This folder will be created after started 'Jetty' container and it mapped to 'webbapps' to 'Jetty'
-
-
-
