@@ -158,6 +158,20 @@ Please excute all commands in the root of the project
 
   > All db data has been saved to ~/.javadock/data/mysql
 
+# PhpMyadmin
+
+* Access URL 
+
+  > http://45.76.204.189:8181
+
+* credential
+
+  > Host: 			mysql
+  >
+  > Credential: 	root/root
+  >
+  > Business:	   default/secret
+
 # Redis
 
 - get management with Gui
