@@ -143,7 +143,7 @@ services:
     volumes:
       - ${JENKINS_HOME}:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
-      - /root/.ssh:/root/.ssh
+      - ${HOME}/.ssh:/root/.ssh
     networks:
       - frontend
       - backend
