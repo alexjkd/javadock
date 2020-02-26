@@ -250,6 +250,10 @@ Please excute all commands in the root of the project
   > JAVA_OPTS: "-Djava.awt.headless=true -Duser.timezone=\"Asia/Shanghai\""
   > Zookeeper
 
+* should set anonymous read access in security settings
+
+  >  Allow anonymous read access
+
 # ZooKeeper
 
 > Included into this project, if necessary you can try it out.
