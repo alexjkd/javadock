@@ -183,6 +183,10 @@ Please excute all commands in the root of the project
 - to access the managment gui
 
   > http://localhost:9987
+  >
+  > Username: java
+  >
+  > Password: java
 
 # Jenkins
 
