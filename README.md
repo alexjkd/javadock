@@ -336,6 +336,14 @@ Please excute all commands in the root of the project
 
 # Kafka Manager
 
+```ba
+http://localhost:9000/
+```
+
+
+
+https://github.com/yahoo/CMAK
+
 https://blog.csdn.net/isea533/article/details/73727485
 
 https://www.jianshu.com/p/6a592d558812

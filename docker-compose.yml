@@ -174,3 +174,20 @@ services:
       - zookeeper
     networks:
       - backend
+
+  ### Kafka Manager ##################################
+  kafka-manager:
+    build: ./kafka-manager
+    ports:
+      - "9000:9000"
+    environment:
+      ZK_HOSTS: zookeeper:2181
+      APPLICATION_SECRET: docker-test 
+      KAFKA_MANAGER_AUTH_ENABLED: "true"
+      KAFKA_MANAGER_USERNAME: java
+      KAFKA_MANAGER_PASSWORD: java
+    depends_on:
+      - kafka
+    networks:
+      - backend
+
