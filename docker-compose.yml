@@ -182,7 +182,7 @@ services:
       - "9000:9000"
     environment:
       ZK_HOSTS: zookeeper:2181
-      APPLICATION_SECRET: docker-test 
+      APPLICATION_SECRET: docker-test
       KAFKA_MANAGER_AUTH_ENABLED: "true"
       KAFKA_MANAGER_USERNAME: java
       KAFKA_MANAGER_PASSWORD: java
@@ -191,3 +191,24 @@ services:
     networks:
       - backend
 
+  ### NGINX Server #########################################
+  nginx:
+    build:
+      context: ./nginx
+      args:
+        - CHANGE_SOURCE=${CHANGE_SOURCE}
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    volumes:
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+      - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+      - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+      - ${NGINX_SSL_PATH}:/etc/nginx/ssl
+    ports:
+      - "${NGINX_HOST_HTTP_PORT}:80"
+      - "${NGINX_HOST_HTTPS_PORT}:443"
+      - "${VARNISH_BACKEND_PORT}:81"
+    networks:
+      - frontend
+      - backend
