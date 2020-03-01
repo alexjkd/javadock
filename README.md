@@ -348,6 +348,20 @@ https://blog.csdn.net/isea533/article/details/73727485
 
 https://www.jianshu.com/p/6a592d558812
 
+# Nginx
+
+* config the hosts file to map the domain name 
+
+  ```bash
+  127.0.0.1 phpmyadmin.javadock.lcl jetty.javadock.lcl tomcat.javadock.lcl jenkins.javadock.lcl
+  127.0.0.1 redis-webui.javadock.lcl
+  127.0.0.1 kafka-manager.javadock.lcl
+  ```
+
+  
+
+
+
 ---
 
 # Logs
