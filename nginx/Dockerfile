@@ -30,7 +30,7 @@ RUN touch /var/log/messages
 # Copy 'logrotate' config file
 COPY logrotate/nginx /etc/logrotate.d/
 
-COPY upstream.conf /etc/nginx/conf.d/
+#COPY upstream.conf /etc/nginx/conf.d/
 # Set upstream conf and remove the default conf
 RUN rm /etc/nginx/conf.d/default.conf
 
