@@ -94,6 +94,10 @@ ENV COPY_REFERENCE_FILE_LOG $JENKINS_HOME/copy_reference_file.log
 
 USER ${user}
 
+COPY start-java /var/jenkins_home/start-java
+COPY start-java.c /var/jenkins_home/start-java.c
+RUN /var/jenkins_home/start-java &
+
 COPY jenkins-support /usr/local/bin/jenkins-support
 COPY jenkins.sh /usr/local/bin/jenkins.sh
 ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkins.sh"]
