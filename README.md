@@ -183,6 +183,10 @@ Please excute all commands in the root of the project
 - to access the managment gui
 
   > http://localhost:9987
+  >
+  > Username: java
+  >
+  > Password: java
 
 # Jenkins
 
@@ -249,6 +253,10 @@ Please excute all commands in the root of the project
 
   > JAVA_OPTS: "-Djava.awt.headless=true -Duser.timezone=\"Asia/Shanghai\""
   > Zookeeper
+
+* should set anonymous read access in security settings
+
+  >  Allow anonymous read access
 
 # ZooKeeper
 
@@ -328,9 +336,31 @@ Please excute all commands in the root of the project
 
 # Kafka Manager
 
+```ba
+http://localhost:9000/
+```
+
+
+
+https://github.com/yahoo/CMAK
+
 https://blog.csdn.net/isea533/article/details/73727485
 
 https://www.jianshu.com/p/6a592d558812
+
+# Nginx
+
+* config the hosts file to map the domain name 
+
+  ```bash
+  127.0.0.1 phpmyadmin.javadock.lcl jetty.javadock.lcl tomcat.javadock.lcl jenkins.javadock.lcl
+  127.0.0.1 redis-webui.javadock.lcl
+  127.0.0.1 kafka-manager.javadock.lcl
+  ```
+
+  
+
+
 
 ---
 

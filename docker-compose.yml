@@ -1,10 +1,12 @@
 version: "3"
 
 networks:
-  frontend:
-    driver: ${NETWORKS_DRIVER}
   backend:
     driver: ${NETWORKS_DRIVER}
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.79.0.0/24
 
 volumes:
   mysql:
@@ -42,6 +44,29 @@ services:
     networks:
       - backend
 
+  ### NGINX Server #########################################
+  nginx:
+    build:
+      context: ./nginx
+      args:
+        - CHANGE_SOURCE=${CHANGE_SOURCE}
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    volumes:
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+      - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+      - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+      - ${NGINX_SSL_PATH}:/etc/nginx/ssl
+    ports:
+      - "${NGINX_HOST_HTTP_PORT}:80"
+      - "${NGINX_HOST_HTTPS_PORT}:443"
+      - "${VARNISH_BACKEND_PORT}:81"
+    networks:
+      backend:
+        ipv4_address: 172.79.0.254
+
+
   ### phpMyAdmin ###########################################
   phpmyadmin:
     build: ./phpmyadmin
@@ -55,8 +80,26 @@ services:
     depends_on:
       - "${PMA_DB_ENGINE}"
     networks:
-      - frontend
-      - backend
+      backend:
+        ipv4_address: 172.79.0.253
+
+### Jetty  ################################################
+  jetty:
+    build:
+      context: ./jetty
+      args:
+        - JETTY_VERSION=${JETTY_VERSION}
+    environment:
+      - TZ=${WORKSPACE_TIMEZONE}
+    volumes:
+      - ./webapps:/var/lib/jetty/webapps
+    ports:
+      - "${JETTY_PORT}:8080"
+      - "${JETTY_DEBUGGING_PORT}:8000"
+    networks:
+      backend:
+        ipv4_address: 172.79.0.252
+
 
   ### TomCat  ################################################
   tomcat:
@@ -79,25 +122,27 @@ services:
       - "${TOMCAT_MANAGE_PORT}:8081"
       - "${TOMCAT_DEBUGGING_PORT}:8000"
     networks:
-      - backend
+      backend:
+        ipv4_address: 172.79.0.251
 
-  ### Jetty  ################################################
-  jetty:
-    build:
-      context: ./jetty
-      args:
-        - JETTY_VERSION=${JETTY_VERSION}
+  ### Jenkins ###################################################
+  jenkins:
+    build: ./jenkins
     environment:
-      - TZ=${WORKSPACE_TIMEZONE}
-    volumes:
-      - ./webapps:/var/lib/jetty/webapps
+      JAVA_OPTS: '-Djava.awt.headless=true -Duser.timezone="Asia/Shanghai"'
     ports:
-      - "${JETTY_PORT}:8080"
-      - "${JETTY_DEBUGGING_PORT}:8000"
+      - "${JENKINS_HOST_SLAVE_AGENT_PORT}:50000"
+      - "${JENKINS_HOST_HTTP_PORT}:8080"
+    privileged: true
+    volumes:
+      - ${JENKINS_HOME}:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${HOME}/.ssh:/root/.ssh
     networks:
-      - backend
+      backend:
+        ipv4_address: 172.79.0.250
 
-  ### Redis ################################################
+    ### Redis ################################################
   redis:
     build: ./redis
     volumes:
@@ -105,7 +150,8 @@ services:
     ports:
       - "${REDIS_PORT}:6379"
     networks:
-      - backend
+      backend:
+        ipv4_address: 172.79.0.249
 
   ### Redis Cluster ##########################################
   redis-cluster:
@@ -130,7 +176,7 @@ services:
       - "${REDIS_WEBUI_PORT}:80"
     depends_on:
       - redis
-
+  
   ### Jenkins ###################################################
   jenkins:
     build: ./jenkins
@@ -171,5 +217,28 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://:9092
       KAFKA_LISTENERS: PLAINTEXT://:9092
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    depends_on:
+      - zookeeper
     networks:
       - backend
+
+  ### Kafka Manager ##################################
+  kafka-manager:
+    build: ./kafka-manager
+    ports:
+      - "9000:9000"
+    environment:
+      ZK_HOSTS: zookeeper:2181
+      APPLICATION_SECRET: docker-test
+      KAFKA_MANAGER_AUTH_ENABLED: "true"
+      KAFKA_MANAGER_USERNAME: java
+      KAFKA_MANAGER_PASSWORD: java
+    depends_on:
+      - kafka
+    networks:
+      backend:
+        ipv4_address: 172.79.0.248
+
+
+
+

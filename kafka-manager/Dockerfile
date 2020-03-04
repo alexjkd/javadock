@@ -1,4 +1,4 @@
-FROM wurstmeister/kafka
+FROM sheepkiller/kafka-manager
 
 LABEL maintainer="Melon <melon.bao@outlook.com>"
 
